@@ -3,6 +3,8 @@ Kohana-3.3 KCache module
 Модуль кеширования с поддержкой тегов на основе DklabCache
 
 Инсталляция модуля:
+-------------------
+
 	// выгрузите модуль в папку своих модулей
 	`cd kohana/modules && git clone https://github.com/Omashu/Kcache.git kcache`
 
@@ -12,7 +14,7 @@ Kohana-3.3 KCache module
 Проверьте файл конфигурации модуля `config/kcache.php`
 
 Пример работы с модулем:
----------------
+------------------------
 	
 	// получение кеша
 	$result = Kcache::instance()->get("cache_key", false);
@@ -30,6 +32,7 @@ Kohana-3.3 KCache module
 
 Сброс кеша по моду:
 -------------------
+
 	Kcache::instance()->clean($mode, array $tags)
 	
 	Available modes are:
@@ -40,4 +43,5 @@ Kohana-3.3 KCache module
 
 Сброс кеша по ключу:
 --------------------
+
 	Kcache::instance()->remove($cache_key)
