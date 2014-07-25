@@ -26,7 +26,7 @@ class Kohana_Kcache {
 	/**
 	 * Получить сущность кеширования
 	 * @param string $group группа кеширования, драйвер
-	 * @return object
+	 * @return object Kcache
 	 */
 	public static function instance($group = NULL) {
 
@@ -123,8 +123,10 @@ class Kohana_Kcache {
 
 	/**
 	 * Записать кеш по ключу
-	 * @param string $str
-	 * @param mixed $default
+	 * @param string $str cache key
+	 * @param mixed $default cache data
+	 * @param int $timelife cache life
+	 * @param array $tags cache tags
 	 * @return mixed
 	 */
 	public function set($name,$data,$timelife = 60,array $tags = array()) {
@@ -153,9 +155,16 @@ class Kohana_Kcache {
 	}
 
 	/**
-	 * Очистка кеша
+	 * Очистка кеша по моду
 	 */
 	public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array()) {
 		return $this->cache->clean($mode, $tags);
+	}
+
+	/**
+	 * Очистка кеша по ключу
+	 */
+	public function remove($key) {
+		return $this->cache->remove($key);
 	}
 }

@@ -5,7 +5,7 @@ return array(
 	'prefix' => 'your_cache_prefix', // общий префикс имен ключей
 	'settings' => array(
 		Kcache::CACHE_DRIVER_FILE => array(
-			'dir' => DOCROOT."tmp",
+			'dir' => sys_get_temp_dir(),
 			'prefix' => 'your_cache_prefix',
 			'read_control_type' => 'crc32',
 			'hashed_directory_level' => 1,

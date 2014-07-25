@@ -25,6 +25,7 @@ class Kohana_Kcache_CalcStats {
 	/**
 	 * Создать сущность драйвера
 	 * @param string $driver file|memcache
+	 * @return object Kcache_CalcStats
 	 */
 	public static function factory($driver) {
 		if (isset(Kcache_CalcStats::$instances[$driver])) {
