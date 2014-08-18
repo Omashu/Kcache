@@ -5,8 +5,8 @@ class Kohana_Kcache {
 	/**
 	 * Drivers
 	 */
-	const CACHE_DRIVER_FILE 			= "file";
-	const CACHE_DRIVER_MEMCACHE 	= "memcache";
+	const CACHE_DRIVER_FILE = "file";
+	const CACHE_DRIVER_MEMCACHE = "memcache";
 
 	/**
 	 * @var string имя драйвера
@@ -29,7 +29,6 @@ class Kohana_Kcache {
 	 * @return object Kcache
 	 */
 	public static function instance($group = NULL) {
-
 		$driver = $group;
 		if (!in_array($group, array(Kcache::CACHE_DRIVER_FILE, Kcache::CACHE_DRIVER_MEMCACHE), true)) {
 			// инициируем дефолтный кеш
@@ -50,12 +49,15 @@ class Kohana_Kcache {
 			require_once Kohana::find_file("vendor", "DklabCache/Cache/Backend/Profiler");
 		}
 
+		$configuration = Kohana::$config->load("kcache.settings.".$driver);
+		if (is_null($configuration)) {
+			throw new Kohana_Exception("Конфигурация драйвера `:driver` кеширования не обнаружена", array(
+				":driver" => $driver,
+			));
+		}
+
 		if ($driver === Kcache::CACHE_DRIVER_FILE) {
 			require_once Kohana::find_file("vendor", "DklabCache/Zend/Cache/Backend/File");
-			$configuration = Kohana::$config->load("kcache.settings." . Kcache::CACHE_DRIVER_FILE);
-			if (is_null($configuration)) {
-				throw new Kohana_Exception("Конфигурация драйвера кеширования не обнаружена");
-			}
 
 			$backend = new Zend_Cache_Backend_File(array(
 				'cache_dir' => $configuration['dir'],
@@ -67,20 +69,13 @@ class Kohana_Kcache {
 			));
 
 			$backend = new Dklab_Cache_Backend_Profiler($backend, array(Kcache_CalcStats::factory($driver), "calc_stats"));
-
 			return Kcache::$instances[$driver] = new Kcache($driver,$backend);
 		} else if ($driver === Kcache::CACHE_DRIVER_MEMCACHE) {
 			require_once Kohana::find_file("vendor", "DklabCache/Zend/Cache/Backend/Memcached");
-			$configuration = Kohana::$config->load("kcache.settings." . Kcache::CACHE_DRIVER_MEMCACHE);
-			if (is_null($configuration)) {
-				throw new Kohana_Exception("Конфигурация драйвера кеширования не обнаружена");
-			}
 
 			$backend = new Dklab_Cache_Backend_MemcachedMultiload($configuration);
 			$backend = new Dklab_Cache_Backend_TagEmuWrapper(new Dklab_Cache_Backend_Profiler($backend,array(Kcache_CalcStats::factory($driver), 'calc_stats')));
 			return Kcache::$instances[$driver] = new Kcache($driver,$backend);
-		} else {
-			throw new Kohana_Exception("Неизвестный драйвер кеширования");
 		}
 	}
 

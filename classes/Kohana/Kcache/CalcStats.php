@@ -6,8 +6,8 @@ class Kohana_Kcache_CalcStats {
 	 * Статистка использования драйвера
 	 */
 	protected $stats = array(
-		'time' 			=> 0,
-		'count' 		=> 0,
+		'time' => 0,
+		'count' => 0,
 		'count_get' => 0,
 		'count_set' => 0,
 	);
@@ -43,8 +43,7 @@ class Kohana_Kcache_CalcStats {
 	 * @param object $callback your function
 	 * @return int вернет кол-во обработанных драйверов
 	 */
-	public static function each($callback)
-	{
+	public static function each($callback) {
 		$return = 0;
 		foreach (Kcache_CalcStats::$instances as $key => $value) {
 			$callback($key,$value);

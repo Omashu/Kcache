@@ -1,11 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 return array(
+	// используемый драйвер по умолчанию
 	'default' => Kcache::CACHE_DRIVER_MEMCACHE,
-	'prefix' => 'your_cache_prefix', // общий префикс имен ключей
+	// общий префикс имен ключей
+	'prefix' => 'your_cache_prefix',
+
+	// настройки драйверов
 	'settings' => array(
 		Kcache::CACHE_DRIVER_FILE => array(
+			// директория хранения кеша
 			'dir' => sys_get_temp_dir(),
+			// префикс имен файлов
 			'prefix' => 'your_cache_prefix',
 			'read_control_type' => 'crc32',
 			'hashed_directory_level' => 1,
